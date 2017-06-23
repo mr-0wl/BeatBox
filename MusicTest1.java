@@ -1,6 +1,6 @@
 import javax.sound.midi.*;
 public class MusicTest1 {
-    pubic void play() {
+    public void play() {
 	Sequencer sequencer = MidiSystem.getSequencer();
 
 	System.out.println("We got a sequencer");
