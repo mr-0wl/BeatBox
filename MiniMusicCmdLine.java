@@ -4,7 +4,7 @@ public class MiniMusicCmdLine { //this is the first one
 public static void main(String[] args) {
   MiniMusicCmdLine mini = new MiniMusicCmdLine();
   if (args.length < 2) {
-    System.out.println("Don't forget the insturment and note args");
+    System.out.println("Don't forget the insturment and note args (insturment first note second)");
   } else {
     int insturment = Integer.parseInt(args[0]);
     int note = Integer.parseInt(args[1]);
