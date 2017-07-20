@@ -12,7 +12,7 @@ public class BeatBox {
   Track track;
   JFrame theFrame;
 
-  String[] insturmentNames = {"Bass Drum", "Closed Hi-Hat",
+  String[] instrumentNames = {"Bass Drum", "Closed Hi-Hat",
 "Open Hi-Hat", "Acoustic Snare", "Crash Cymbal", "Hand Clap",
 "High Tom", "Hi Bongo", "Maracas", "Whistle", "Low Conga",
 "Cowbell", "Vibraslap", "Low-mid Tom", "High Agogo",
@@ -25,7 +25,7 @@ public static void main (String[] args) {
 
 public void buildGUI() {
   theFrame = new JFrame("Cyber Beatbox");
-  theFrame.setDefaultCloseOperation(Jframe.EXIT_ON_CLOSE);
+  theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   BorderLayout layout = new BorderLayout();
   JPanel background = new JPanel(layout);
   background.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -51,7 +51,7 @@ public void buildGUI() {
 
   Box nameBox = new Box(BoxLayout.Y_AXIS);
   for (int i = 0; i < 16; i++) {
-    nameBox.add(new Label (insturmentNames[i]));
+    nameBox.add(new Label (instrumentNames[i]));
     }
 
     background.add(BorderLayout.EAST, buttonBox);
@@ -97,7 +97,7 @@ public void BuildTrackAndStart() {
   for (int i = 0; i < 16; i++) {
     trackList = new int[16];
 
-    int key = insturments[i];
+    int key = instruments[i];
 
     for (int j = 0; j < 16; j++) {
       JCheckBox jc = checkboxList.get(j + 16 *i);
@@ -116,11 +116,58 @@ public void BuildTrackAndStart() {
   track.add(makeEvent(192,9,1,0,15));
   try {
     sequencer.setSequence(sequence);
-    sequencer.setLoopCount(sequencer.LOOP_CONTINOUSLY);
+    sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
     sequencer.start();
     sequencer.setTempoInBPM(120);
 
   } catch(Exception e) {e.printStackTrace();}
 } // close BuildTrackAndStart method
+
+public class MyStartListener implements ActionListener {
+  public void actionPerformed(ActionEvent a) {
+    BuildTrackAndStart();
+  }
+} //close inner class
+
+public class MyStopListener implements ActionListener {
+  public void actionPerformed(ActionEvent a) {
+    sequencer.stop();
+  }
+}// close inner class
+
+public class MyUpTempoListener implements ActionListener {
+  public void actionPerformed(ActionEvent a) {
+    float tempoFactor = sequencer.getTempoFactor();
+    sequencer.setTempoFactor( (float) (tempoFactor * 1.03));
+  }
+} // close inner class
+
+public class MyDownTempoListener implements ActionListener {
+  public void actionPerformed(ActionEvent a) {
+    float tempoFactor = sequencer.getTempoFactor();
+    sequencer.setTempoFactor( (float) (tempoFactor * .97));
+  }
+} //close inner class
+
+
+public void makeTracks(int[] list) {
+  for (int i = 0; i < 16; i++) {
+    int key = list[i];
+
+    if (key != 0) {
+      track.add(makeEvent(144,9,key,100,i));
+      track.add(makeEvent(128,9,key,100,i+1));
+    }
+  }
 }
+
+public MidiEvent makeEvent(int comd, int chan, int one, int two, int tick) {
+  MidiEvent event = null;
+  try {
+    ShortMessage a = new ShortMessage();
+    a.setMessage(comd, chan, one, two);
+    event = new MidiEvent(a, tick);
+  } catch(Exception e) {e.printStackTrace();}
+  return event;
 }
+} // close class
