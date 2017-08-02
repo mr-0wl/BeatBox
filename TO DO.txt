@@ -1,0 +1,5 @@
+-save function that saves beats in a file / loads beats for future
+-Save function should also allow saving of other beats
+-set up so app doesn't lock up when server is not running
+-clear all button
+-random button 
