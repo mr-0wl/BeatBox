@@ -83,7 +83,7 @@ public class BeatBoxFinal {
               user = null;
           } else { //open connection to the server
               try {
-          Socket sock  = new Socket("45.77.72.121", 4242);
+          Socket sock  = new Socket("127.0.0.1", 4242);
           out = new ObjectOutputStream(sock.getOutputStream());
           in = new ObjectInputStream(sock.getInputStream());
           Thread remote = new Thread(new RemoteReader());
